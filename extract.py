@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 
 from schema import Extracted
-
+from pydantic import ValidationError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -54,6 +54,17 @@ def ask_gemini(event_text,prompt,api_key,gemini_model):
     return response.text,response.parsed
 
 
+def validate_extraction(json_text):
+
+    try:
+        extracted = Extracted.model_validate_json(json_text)
+        return extracted
+    except ValidationError as error:
+        print(error,file=sys.stderr)
+        return None
+    
+
+
 
 json_text, extracted_data = ask_gemini(
     event_text,
@@ -61,5 +72,13 @@ json_text, extracted_data = ask_gemini(
     gemini_api_key,
     gemini_model,
 )
+
+validated_data = validate_extraction(json_text)
+
+if validated_data is not None:
+    print(validated_data.model_dump_json())
+else:
+    print("Extraction failed validation",file=sys.stderr)    
+    sys.exit(1)
 
 print(json_text)
