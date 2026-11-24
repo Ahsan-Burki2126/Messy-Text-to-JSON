@@ -9,3 +9,4 @@ class Extracted(BaseModel):
     event_city : str | None = None
     event_price : str | None = None
     registration_required : bool | None = None
+    
