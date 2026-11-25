@@ -9,9 +9,9 @@ Your task is to extract useful information according to the Extracted schema.
 Do not invent or guess missing information.
 
 If an optional field is missing, use null without quotation marks.
-The event_name field is required.
-If the event name cannot be identified, do not invent one.
-
+If the input is not an event listing, return null for every field.
+If the event name cannot be identified, set event_name to null.
+Do not invent an event.
 Extract only these fields.
 
 event_name
@@ -29,3 +29,7 @@ Preserve dates, times, locations, and prices as written in the event listing.
 For registration_required, use true only when registration is clearly required.
 Use false when registration is clearly not required.
 Use null when the listing does not provide enough information.
+Do not treat free registration as proof that registration is required.
+Use true only for phrases such as registration is required, registration is mandatory, or attendees must register.
+Use false only when the text clearly says registration is not required or no registration is needed.
+Use null when registration is mentioned but its requirement is unclear.

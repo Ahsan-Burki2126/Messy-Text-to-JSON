@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class Extracted(BaseModel):
 
-    event_name : str
+    event_name : str | None = None
     event_date : str | None = None
     event_time : str | None = None
     event_venue : str | None = None
